@@ -23,4 +23,8 @@ class AuthRepository {
   }) {
     return provider.login(email: email, password: password);
   }
+
+  EitherBool isLoggedIn() {
+    return provider.isLoggedIn();
+  }
 }

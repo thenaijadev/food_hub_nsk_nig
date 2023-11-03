@@ -10,13 +10,14 @@ import 'package:the_food_hub_nsk_nig/core/network/typedef.dart';
 import 'package:the_food_hub_nsk_nig/features/auth/data/interfaces/auth_provider.dart';
 
 class AuthProviderImpl implements AuthProvider {
+  AuthProviderImpl({required this.supabase});
+  final SupabaseClient supabase;
   @override
   EitherUser signUpWithEmail(
       {required String fullName,
       required String email,
       required String password}) async {
     try {
-      final supabase = Supabase.instance.client;
       final AuthResponse res = await supabase.auth.signUp(
         email: email,
         password: password,
@@ -42,7 +43,6 @@ class AuthProviderImpl implements AuthProvider {
   @override
   EitherUser signUpWithGoogle() async {
     try {
-      final supabase = Supabase.instance.client;
       // Just a random string
       final rawNonce = _generateRandomString();
       final hashedNonce = sha256.convert(utf8.encode(rawNonce)).toString();
@@ -114,13 +114,13 @@ class AuthProviderImpl implements AuthProvider {
   @override
   EitherUser login({required String email, required String password}) async {
     try {
-      final supabase = Supabase.instance.client;
       final AuthResponse res = await supabase.auth.signInWithPassword(
         email: email,
         password: password,
       );
       // final Session? session = res.session;
       final User? user = res.user;
+
       return right(user);
     } on AuthException catch (e) {
       return left(e.message);
@@ -132,8 +132,6 @@ class AuthProviderImpl implements AuthProvider {
   @override
   EitherUser signInWithGoogle() async {
     try {
-      final supabase = Supabase.instance.client;
-
       // Perform web based OAuth login
       await supabase.auth.signInWithOAuth(
         Provider.github,
@@ -155,5 +153,20 @@ class AuthProviderImpl implements AuthProvider {
     //     // Do something when user sign in
     //   }
     // });
+  }
+
+  @override
+  EitherBool isLoggedIn() async {
+    try {
+      final currentUser = supabase.auth.currentSession;
+
+      if (currentUser != null) {
+        return right(true);
+      } else {
+        return right(false);
+      }
+    } catch (e) {
+      return left(e.toString());
+    }
   }
 }

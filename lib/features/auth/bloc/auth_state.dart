@@ -30,3 +30,8 @@ class AuthStateLogInError extends AuthState {
   AuthStateLogInError({required this.error});
   final String error;
 }
+
+class AuthStateUserIsLoggedIn extends AuthState {
+  AuthStateUserIsLoggedIn({required this.isLoggedIn});
+  final bool isLoggedIn;
+}

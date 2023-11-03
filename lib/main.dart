@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:the_food_hub_nsk_nig/config/router/app_router.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:the_food_hub_nsk_nig/config/superbase/provider/super_base_provoder_impl.dart';
@@ -40,8 +41,9 @@ class MyApp extends StatelessWidget {
       child: MultiBlocProvider(
         providers: [
           BlocProvider<AuthBloc>(
-            create: (BuildContext context) =>
-                AuthBloc(AuthRepository(provider: AuthProviderImpl())),
+            create: (BuildContext context) => AuthBloc(AuthRepository(
+                provider: AuthProviderImpl(supabase: Supabase.instance.client)))
+              ..add(AuthEventUserIsLoggedIn()),
           ),
           BlocProvider<CartBloc>(create: (BuildContext context) => CartBloc())
         ],

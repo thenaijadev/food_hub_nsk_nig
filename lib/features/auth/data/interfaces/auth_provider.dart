@@ -10,4 +10,6 @@ abstract class AuthProvider {
   EitherUser signInWithGoogle();
 
   EitherUser login({required String email, required String password});
+
+  EitherBool isLoggedIn();
 }

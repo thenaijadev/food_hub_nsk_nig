@@ -23,7 +23,6 @@ class _PhoneNumberFormState extends State<PhoneNumberForm> {
     setState(() {
       flag = country.flagEmoji;
       phoneCode = "+${country.phoneCode}";
-      print(phoneCode);
     });
   }
 
