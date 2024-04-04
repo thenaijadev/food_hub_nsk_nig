@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:the_food_hub_nsk_nig/config/router/routes.dart';
 import 'package:the_food_hub_nsk_nig/core/widgets/loading_widget.dart';
-import 'package:the_food_hub_nsk_nig/features/auth/bloc/auth_bloc.dart';
+import 'package:the_food_hub_nsk_nig/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:the_food_hub_nsk_nig/features/auth/presentation/widgets/home/auth_option_label.dart';
 import 'package:the_food_hub_nsk_nig/features/auth/presentation/widgets/home/oauth_button.dart';
-import 'package:the_food_hub_nsk_nig/features/auth/presentation/widgets/registration/sign_in_button.dart';
 import 'package:the_food_hub_nsk_nig/features/auth/presentation/widgets/home/signup_signin_opotion_text.dart';
+import 'package:the_food_hub_nsk_nig/features/auth/presentation/widgets/registration/sign_in_button.dart';
 
 class SignInOptions extends StatelessWidget {
   const SignInOptions({super.key});
@@ -24,16 +24,16 @@ class SignInOptions extends StatelessWidget {
           children: [
             BlocConsumer<AuthBloc, AuthState>(
               listener: (context, state) {
-                if (state is AuthStateUserRegistered) {
+                if (state is AuthStateIsLoggedIn) {
                   Navigator.pushReplacementNamed(context, Routes.home);
                 }
               },
               builder: (context, state) {
-                return state is AuthStateIsRegistering
+                return state is AuthStateEmailVerificationLinkSent
                     ? const LoadingWidget()
                     : OAuthButton(
                         onTap: () {
-                          authBloc.add(AuthEventRegisterWithGoogle());
+                          //TODO: Google Auth
                         },
                         image: "google",
                         label: "Google",

@@ -34,6 +34,14 @@ dependencies:
   equatable: ^2.0.5
   country_picker: ^2.0.21
   firebase_core: ^2.27.1
+  logger: ^2.2.0
+  local_auth: ^2.2.0
+  firebase_auth: ^4.19.0
+  local_auth_android: ^1.0.37
+  data_connection_checker_tv: ^0.3.5-nullsafety
+  get_it: ^7.6.8
+  shared_preferences: ^2.2.2
+  cloud_firestore: ^4.16.0
 flutter_native_splash:
   color: "#FE724C"
   image: assets/images/splash.png

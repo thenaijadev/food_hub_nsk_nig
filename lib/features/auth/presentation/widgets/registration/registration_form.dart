@@ -5,7 +5,7 @@ import 'package:the_food_hub_nsk_nig/core/constants/app_colors.dart';
 import 'package:the_food_hub_nsk_nig/core/widgets/loading_widget.dart';
 import 'package:the_food_hub_nsk_nig/core/widgets/snackbar.dart';
 import 'package:the_food_hub_nsk_nig/core/widgets/text_widget.dart';
-import 'package:the_food_hub_nsk_nig/features/auth/bloc/auth_bloc.dart';
+import 'package:the_food_hub_nsk_nig/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:the_food_hub_nsk_nig/features/auth/presentation/widgets/home/auth_button.dart';
 import 'package:the_food_hub_nsk_nig/features/auth/presentation/widgets/home/auth_option_label.dart';
 import 'package:the_food_hub_nsk_nig/features/auth/presentation/widgets/home/oauth_button.dart';
@@ -68,14 +68,15 @@ class _SignUpFormState extends State<SignUpForm> {
                 textFieldkey: key_3),
             BlocConsumer<AuthBloc, AuthState>(
               listener: (context, state) {
-                if (state is AuthStateUserRegistered) {
+                if (state is AuthStateIsLoggedIn) {
                   Navigator.pushReplacementNamed(context, Routes.home);
-                } else if (state is AuthStateRegistrationError) {
-                  InfoSnackBar.showErrorSnackBar(context, state.error);
+                } else if (state is AuthStateAuthError) {
+                  InfoSnackBar.showErrorSnackBar(
+                      context, state.authError.message);
                 }
               },
               builder: (context, state) {
-                return state is AuthStateIsRegistering
+                return state is AuthStateIsLoading
                     ? const LoadingWidget()
                     : PrimaryOrangeButton(
                         label: "SIGN UP",
@@ -84,10 +85,10 @@ class _SignUpFormState extends State<SignUpForm> {
                           final String fullName = key_1.currentState?.value;
                           final String email = key_2.currentState?.value;
                           final String password = key_3.currentState?.value;
-                          authBloc.add(AuthEventRegister(
+                          authBloc.add(AuthEventCreateUser(
                               email: email,
                               password: password,
-                              fullName: fullName));
+                              userName: fullName));
                         },
                       );
               },
@@ -113,20 +114,22 @@ class _SignUpFormState extends State<SignUpForm> {
             ),
             BlocConsumer<AuthBloc, AuthState>(
               listener: (context, state) {
-                if (state is AuthStateUserRegistered) {
+                if (state is AuthStateIsLoggedIn) {
                   Navigator.pushReplacementNamed(context, Routes.home);
-                } else if (state is AuthStateRegistrationError) {
-                  InfoSnackBar.showErrorSnackBar(context, state.error);
+                } else if (state is AuthStateAuthError) {
+                  InfoSnackBar.showErrorSnackBar(
+                      context, state.authError.message);
                 }
               },
               builder: (context, state) {
-                return state is AuthStateIsRegisteringwithGoogle
+                return state is AuthStateIsLoading
                     ? const Flexible(child: LoadingWidget())
                     : OAuthButton(
                         image: "google",
                         label: "Google",
                         onTap: () async {
-                          authBloc.add(AuthEventRegisterWithGoogle());
+                          // authBloc.add(AuthEventRegisterWithGoogle());
+                          //TODO:Google auth
                         },
                         verticalPadding: 0,
                       );
