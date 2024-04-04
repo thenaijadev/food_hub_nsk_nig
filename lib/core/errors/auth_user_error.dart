@@ -1,5 +1,4 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'package:minimalist_social_app/core/errors/auth_error.dart';
+import 'package:the_food_hub_nsk_nig/core/errors/auth_error.dart';
 
 class AuthUserError extends AuthError {
   AuthUserError({required super.message});
