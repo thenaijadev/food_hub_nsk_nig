@@ -7,8 +7,6 @@ import 'package:the_food_hub_nsk_nig/core/widgets/snackbar.dart';
 import 'package:the_food_hub_nsk_nig/core/widgets/text_widget.dart';
 import 'package:the_food_hub_nsk_nig/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:the_food_hub_nsk_nig/features/auth/presentation/widgets/home/auth_button.dart';
-import 'package:the_food_hub_nsk_nig/features/auth/presentation/widgets/home/auth_option_label.dart';
-import 'package:the_food_hub_nsk_nig/features/auth/presentation/widgets/home/oauth_button.dart';
 import 'package:the_food_hub_nsk_nig/features/auth/presentation/widgets/home/signup_signin_opotion_text.dart';
 import 'package:the_food_hub_nsk_nig/features/auth/presentation/widgets/home/text_field.dart';
 
@@ -68,7 +66,7 @@ class _SignUpFormState extends State<SignUpForm> {
                 textFieldkey: key_3),
             BlocConsumer<AuthBloc, AuthState>(
               listener: (context, state) {
-                if (state is AuthStateIsLoggedIn) {
+                if (state is AuthStateUserCreated) {
                   Navigator.pushReplacementNamed(context, Routes.home);
                 } else if (state is AuthStateAuthError) {
                   InfoSnackBar.showErrorSnackBar(
@@ -101,40 +99,40 @@ class _SignUpFormState extends State<SignUpForm> {
                 onAlternative: () {
                   Navigator.pushNamed(context, Routes.login);
                 }),
-            const SizedBox(
-              height: 20,
-            ),
-            const AuthOptionLabel(
-              line: "assets/images/line_grey.png",
-              color: Colors.black,
-              label: "Sign up with",
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            BlocConsumer<AuthBloc, AuthState>(
-              listener: (context, state) {
-                if (state is AuthStateIsLoggedIn) {
-                  Navigator.pushReplacementNamed(context, Routes.home);
-                } else if (state is AuthStateAuthError) {
-                  InfoSnackBar.showErrorSnackBar(
-                      context, state.authError.message);
-                }
-              },
-              builder: (context, state) {
-                return state is AuthStateIsLoading
-                    ? const Flexible(child: LoadingWidget())
-                    : OAuthButton(
-                        image: "google",
-                        label: "Google",
-                        onTap: () async {
-                          // authBloc.add(AuthEventRegisterWithGoogle());
-                          //TODO:Google auth
-                        },
-                        verticalPadding: 0,
-                      );
-              },
-            )
+            // const SizedBox(
+            //   height: 20,
+            // ),
+            // const AuthOptionLabel(
+            //   line: "assets/images/line_grey.png",
+            //   color: Colors.black,
+            //   label: "Sign up with",
+            // ),
+            // const SizedBox(
+            //   height: 20,
+            // ),
+            // BlocConsumer<AuthBloc, AuthState>(
+            //   listener: (context, state) {
+            //     if (state is AuthStateIsLoggedIn) {
+            //       Navigator.pushReplacementNamed(context, Routes.home);
+            //     } else if (state is AuthStateAuthError) {
+            //       InfoSnackBar.showErrorSnackBar(
+            //           context, state.authError.message);
+            //     }
+            //   },
+            //   builder: (context, state) {
+            //     return state is AuthStateIsLoading
+            //         ? const Flexible(child: LoadingWidget())
+            //         : OAuthButton(
+            //             image: "google",
+            //             label: "Google",
+            //             onTap: () async {
+            //               // authBloc.add(AuthEventRegisterWithGoogle());
+            //               //TODO:Google auth
+            //             },
+            //             verticalPadding: 0,
+            //           );
+            //   },
+            // )
           ],
         ),
       ),

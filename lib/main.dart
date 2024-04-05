@@ -1,17 +1,21 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:the_food_hub_nsk_nig/config/dependency_injection/dependency_container.dart';
 import 'package:the_food_hub_nsk_nig/config/router/app_router.dart';
-import 'package:the_food_hub_nsk_nig/config/superbase/provider/super_base_provoder_impl.dart';
+import 'package:the_food_hub_nsk_nig/core/observer/bloc_observer.dart';
 import 'package:the_food_hub_nsk_nig/features/auth/domain/usecases/auth_usecases.dart';
 import 'package:the_food_hub_nsk_nig/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:the_food_hub_nsk_nig/features/cart/bloc/cart_bloc.dart';
+import 'package:the_food_hub_nsk_nig/firebase_options.dart';
 
 void main() async {
   appInitialization();
   await initializeDependencies();
+  Bloc.observer = AppObserver();
+
   runApp(const MyApp());
 }
 
@@ -23,8 +27,9 @@ appInitialization() async {
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]);
-  SuperBaseProviderImpl().superBaseInit();
   await Hive.initFlutter();
+
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 }
 
 class MyApp extends StatelessWidget {

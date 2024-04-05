@@ -1,6 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-
+import 'package:the_food_hub_nsk_nig/core/errors/user_error.dart';
 import 'package:the_food_hub_nsk_nig/features/users/data/repositories/user_repository.dart';
 import 'package:the_food_hub_nsk_nig/features/users/data/users/user_model.dart';
 
